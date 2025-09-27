@@ -1,0 +1,19 @@
+import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+async function main() {
+  const resp = await client.messages.create({
+    model: "claude-3-5-sonnet-latest",
+    max_tokens: 200,
+    messages: [
+      { role: "user", content: "Write a short JavaScript function to reverse a string." }
+    ],
+  });
+  console.log(resp.content[0].text);
+}
+
+main().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

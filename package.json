@@ -1,0 +1,29 @@
+{
+  "name": "todo-list-app",
+  "version": "1.0.0",
+  "description": "A modern, responsive todo list application with advanced features",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["todo", "task", "productivity", "javascript", "html", "css"],
+  "author": "Claude Assistant",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/claude-code": "^1.0.127",
+    "@anthropic-ai/sdk": "^0.64.0",
+    "dotenv": "^17.2.2"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/todo-list-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/todo-list-app/issues"
+  },
+  "homepage": "https://github.com/yourusername/todo-list-app#readme"
+}
