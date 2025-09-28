@@ -281,7 +281,12 @@ class TodoApp {
                     class="todo-checkbox" 
                     ${todo.completed ? 'checked' : ''}
                 >
-                <span class="todo-text">${this.escapeHtml(todo.text)}</span>
+                <div class="todo-content">
+                    <span class="todo-text">${this.escapeHtml(todo.text)}</span>
+                    <div class="todo-meta">
+                        <small class="todo-date">Created: ${createdDate} at ${createdTime}</small>
+                    </div>
+                </div>
                 <div class="todo-actions">
                     <button class="action-btn edit-btn" title="Edit task">
                         <i class="fas fa-edit"></i>
@@ -291,9 +296,6 @@ class TodoApp {
                     </button>
                 </div>
                 <div class="priority-badge ${todo.priority}">${todo.priority}</div>
-                <div class="todo-meta">
-                    <small class="todo-date">Created: ${createdDate} at ${createdTime}</small>
-                </div>
             </li>
         `;
     }
