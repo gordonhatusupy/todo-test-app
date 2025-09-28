@@ -1,30 +1,42 @@
 /* CSS Variables for Theming */
 :root {
-    --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --bg-secondary: white;
-    --text-primary: #333;
-    --text-secondary: #6c757d;
-    --text-white: white;
-    --border-color: #e1e5e9;
-    --shadow: 0 10px 30px rgba(0,0,0,0.1);
-    --hover-bg: #e9ecef;
-    --input-bg: white;
-    --modal-bg: white;
-    --notification-bg: rgba(0,0,0,0.5);
+    --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    --bg-secondary: rgba(255, 255, 255, 0.95);
+    --bg-card: rgba(255, 255, 255, 0.9);
+    --text-primary: #2d3748;
+    --text-secondary: #718096;
+    --text-white: #ffffff;
+    --border-color: rgba(226, 232, 240, 0.8);
+    --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.15);
+    --hover-bg: rgba(247, 250, 252, 0.8);
+    --input-bg: rgba(255, 255, 255, 0.9);
+    --modal-bg: rgba(255, 255, 255, 0.95);
+    --notification-bg: rgba(0, 0, 0, 0.4);
+    --gradient-accent: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-success: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    --gradient-warning: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+    --gradient-danger: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
 }
 
 [data-theme="dark"] {
-    --bg-primary: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    --bg-secondary: #2c3e50;
-    --text-primary: #ecf0f1;
-    --text-secondary: #bdc3c7;
-    --text-white: #ecf0f1;
-    --border-color: #34495e;
-    --shadow: 0 10px 30px rgba(0,0,0,0.3);
-    --hover-bg: #34495e;
-    --input-bg: #34495e;
-    --modal-bg: #2c3e50;
-    --notification-bg: rgba(0,0,0,0.7);
+    --bg-primary: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+    --bg-secondary: rgba(26, 32, 44, 0.95);
+    --bg-card: rgba(45, 55, 72, 0.9);
+    --text-primary: #e2e8f0;
+    --text-secondary: #a0aec0;
+    --text-white: #ffffff;
+    --border-color: rgba(74, 85, 104, 0.6);
+    --shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.4);
+    --hover-bg: rgba(74, 85, 104, 0.3);
+    --input-bg: rgba(45, 55, 72, 0.9);
+    --modal-bg: rgba(26, 32, 44, 0.95);
+    --notification-bg: rgba(0, 0, 0, 0.7);
+    --gradient-accent: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    --gradient-success: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+    --gradient-warning: linear-gradient(135deg, #dd6b20 0%, #c05621 100%);
+    --gradient-danger: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
 }
 
 /* Reset and Base Styles */
@@ -35,64 +47,74 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     background: var(--bg-primary);
     min-height: 100vh;
     color: var(--text-primary);
     line-height: 1.6;
     transition: background 0.3s ease, color 0.3s ease;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px 20px;
     min-height: 100vh;
+    backdrop-filter: blur(10px);
 }
 
 /* Header Styles */
 .header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     color: var(--text-white);
     position: relative;
 }
 
 .header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    font-size: 3rem;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 .header h1 i {
-    margin-right: 15px;
+    margin-right: 20px;
     color: #ffd700;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .subtitle {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     opacity: 0.9;
     font-weight: 300;
+    letter-spacing: 0.01em;
 }
 
 .theme-toggle {
     position: absolute;
     top: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: var(--text-white);
-    padding: 12px;
+    padding: 15px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    font-size: 1.3rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .theme-toggle:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .theme-toggle:active {
@@ -101,48 +123,59 @@ body {
 
 /* Todo Input Section */
 .todo-input-section {
-    background: var(--bg-secondary);
-    border-radius: 15px;
-    padding: 25px;
-    margin-bottom: 20px;
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 35px;
+    margin-bottom: 30px;
     box-shadow: var(--shadow);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+}
+
+.todo-input-section:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
 }
 
 .input-group {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     align-items: center;
 }
 
 #todo-input {
     flex: 1;
-    padding: 15px 20px;
+    padding: 18px 24px;
     border: 2px solid var(--border-color);
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
     background: var(--input-bg);
     color: var(--text-primary);
+    font-weight: 400;
+    letter-spacing: 0.01em;
 }
 
 #todo-input:focus {
     border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
 }
 
 .priority-select {
-    padding: 15px 20px;
+    padding: 18px 24px;
     border: 2px solid var(--border-color);
-    border-radius: 10px;
-    font-size: 1rem;
+    border-radius: 16px;
+    font-size: 1.1rem;
     background: var(--input-bg);
     color: var(--text-primary);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
-    min-width: 120px;
+    min-width: 140px;
+    font-weight: 500;
 }
 
 .priority-select:focus {
@@ -155,23 +188,25 @@ body {
 }
 
 .add-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-accent);
     color: white;
     border: none;
-    padding: 15px 25px;
-    border-radius: 10px;
-    font-size: 1rem;
+    padding: 18px 32px;
+    border-radius: 16px;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    letter-spacing: 0.01em;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
 }
 
 .add-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
 }
 
 .add-btn:active {
@@ -180,48 +215,58 @@ body {
 
 /* Filter Section */
 .filter-section {
-    background: var(--bg-secondary);
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 20px;
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 30px;
     box-shadow: var(--shadow);
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 15px;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    gap: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+}
+
+.filter-section:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-1px);
 }
 
 .filter-buttons {
     display: flex;
-    gap: 10px;
+    gap: 12px;
 }
 
 .filter-btn {
     background: var(--hover-bg);
     border: 2px solid var(--border-color);
-    padding: 10px 20px;
-    border-radius: 25px;
+    padding: 12px 24px;
+    border-radius: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.95rem;
     font-weight: 500;
     display: flex;
     align-items: center;
     gap: 8px;
     color: var(--text-primary);
+    letter-spacing: 0.01em;
 }
 
 .filter-btn:hover {
     background: var(--hover-bg);
     border-color: #667eea;
+    transform: translateY(-1px);
 }
 
 .filter-btn.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-accent);
     color: white;
     border-color: transparent;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
 }
 
 .todo-stats {
@@ -253,13 +298,20 @@ body {
 
 /* Todo List Section */
 .todo-list-section {
-    background: var(--bg-secondary);
-    border-radius: 15px;
-    padding: 25px;
-    margin-bottom: 20px;
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 35px;
+    margin-bottom: 30px;
     box-shadow: var(--shadow);
     min-height: 200px;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+}
+
+.todo-list-section:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-1px);
 }
 
 .todo-list {
@@ -269,61 +321,66 @@ body {
 .todo-item {
     display: flex;
     align-items: flex-start;
-    padding: 15px;
-    margin-bottom: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
     background: var(--hover-bg);
-    border-radius: 10px;
-    transition: all 0.3s ease;
+    border-radius: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 4px solid transparent;
     position: relative;
-    padding-right: 80px; /* Make space for priority badge */
+    padding-right: 90px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
 }
 
 .todo-item:hover {
     background: var(--hover-bg);
-    transform: translateX(5px);
+    transform: translateX(8px) translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 /* Priority indicators */
 .todo-item.priority-high {
-    border-left-color: #dc3545;
-    background: linear-gradient(90deg, rgba(220, 53, 69, 0.05) 0%, #f8f9fa 100%);
+    border-left-color: #e53e3e;
+    background: linear-gradient(90deg, rgba(229, 62, 62, 0.08) 0%, var(--hover-bg) 100%);
 }
 
 .todo-item.priority-normal {
-    border-left-color: #ffc107;
-    background: linear-gradient(90deg, rgba(255, 193, 7, 0.05) 0%, #f8f9fa 100%);
+    border-left-color: #ed8936;
+    background: linear-gradient(90deg, rgba(237, 137, 54, 0.08) 0%, var(--hover-bg) 100%);
 }
 
 .todo-item.priority-low {
-    border-left-color: #28a745;
-    background: linear-gradient(90deg, rgba(40, 167, 69, 0.05) 0%, #f8f9fa 100%);
+    border-left-color: #48bb78;
+    background: linear-gradient(90deg, rgba(72, 187, 120, 0.08) 0%, var(--hover-bg) 100%);
 }
 
 .priority-badge {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 12px;
+    right: 12px;
     font-size: 0.7rem;
-    padding: 2px 6px;
-    border-radius: 10px;
+    padding: 4px 8px;
+    border-radius: 12px;
     font-weight: 600;
     text-transform: uppercase;
     z-index: 2;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .priority-badge.high {
-    background: #dc3545;
+    background: var(--gradient-danger);
     color: white;
 }
 
 .priority-badge.normal {
-    background: #ffc107;
-    color: #333;
+    background: var(--gradient-warning);
+    color: white;
 }
 
 .priority-badge.low {
-    background: #28a745;
+    background: var(--gradient-success);
     color: white;
 }
 
@@ -365,9 +422,12 @@ body {
 
 .todo-text {
     flex: 1;
-    font-size: 1rem;
+    font-size: 1.1rem;
     word-break: break-word;
-    margin-right: 10px;
+    margin-right: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
 }
 
 .todo-content {
