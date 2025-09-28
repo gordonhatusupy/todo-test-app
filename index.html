@@ -24,6 +24,11 @@
                         maxlength="100"
                         required
                     >
+                    <select id="priority-select" class="priority-select">
+                        <option value="low">🟢 Low</option>
+                        <option value="normal" selected>🟡 Normal</option>
+                        <option value="high">🔴 High</option>
+                    </select>
                     <button type="submit" class="add-btn">
                         <i class="fas fa-plus"></i>
                         Add Task
@@ -42,6 +47,9 @@
                 </button>
                 <button class="filter-btn" data-filter="completed">
                     <i class="fas fa-check"></i> Completed
+                </button>
+                <button class="filter-btn" data-filter="high">
+                    <i class="fas fa-exclamation-circle"></i> High Priority
                 </button>
             </div>
             <div class="todo-stats">

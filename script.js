@@ -13,6 +13,7 @@ class TodoApp {
     initializeElements() {
         this.todoForm = document.getElementById('todo-form');
         this.todoInput = document.getElementById('todo-input');
+        this.prioritySelect = document.getElementById('priority-select');
         this.todoList = document.getElementById('todo-list');
         this.emptyState = document.getElementById('empty-state');
         this.todoCount = document.getElementById('todo-count');
@@ -62,6 +63,7 @@ class TodoApp {
     handleAddTodo(e) {
         e.preventDefault();
         const text = this.todoInput.value.trim();
+        const priority = this.prioritySelect.value;
         
         if (!text) {
             this.showNotification('Please enter a task!', 'error');
@@ -73,11 +75,12 @@ class TodoApp {
             text: text,
             completed: false,
             createdAt: new Date().toISOString(),
-            priority: 'normal'
+            priority: priority
         };
         
         this.todos.unshift(todo);
         this.todoInput.value = '';
+        this.prioritySelect.value = 'normal'; // Reset to default
         this.saveTodos();
         this.render();
         this.showNotification('Task added successfully!', 'success');
@@ -202,12 +205,14 @@ class TodoApp {
             );
         }
         
-        // Apply status filter
+        // Apply status/priority filter
         switch (this.currentFilter) {
             case 'active':
                 return filtered.filter(todo => !todo.completed);
             case 'completed':
                 return filtered.filter(todo => todo.completed);
+            case 'high':
+                return filtered.filter(todo => todo.priority === 'high');
             default:
                 return filtered;
         }
@@ -264,7 +269,7 @@ class TodoApp {
         const createdTime = new Date(todo.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         
         return `
-            <li class="todo-item ${todo.completed ? 'completed' : ''}" data-id="${todo.id}">
+            <li class="todo-item ${todo.completed ? 'completed' : ''} priority-${todo.priority}" data-id="${todo.id}">
                 <input 
                     type="checkbox" 
                     class="todo-checkbox" 
@@ -279,6 +284,7 @@ class TodoApp {
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
+                <div class="priority-badge ${todo.priority}">${todo.priority}</div>
                 <div class="todo-meta">
                     <small class="todo-date">Created: ${createdDate} at ${createdTime}</small>
                 </div>
@@ -428,7 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 text: 'Welcome to your Todo List!',
                 completed: false,
                 createdAt: new Date().toISOString(),
-                priority: 'normal'
+                priority: 'high'
             },
             {
                 id: '2',
@@ -442,11 +448,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 text: 'Use the edit button to modify tasks',
                 completed: true,
                 createdAt: new Date().toISOString(),
-                priority: 'normal'
+                priority: 'low'
             },
             {
                 id: '4',
-                text: 'Try filtering by All, Active, or Completed',
+                text: 'Try filtering by All, Active, Completed, or High Priority',
                 completed: false,
                 createdAt: new Date().toISOString(),
                 priority: 'normal'
@@ -456,7 +462,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 text: 'Search for specific tasks using the search box',
                 completed: false,
                 createdAt: new Date().toISOString(),
-                priority: 'normal'
+                priority: 'high'
+            },
+            {
+                id: '6',
+                text: 'Notice the color-coded priority indicators!',
+                completed: false,
+                createdAt: new Date().toISOString(),
+                priority: 'low'
             }
         ];
         
