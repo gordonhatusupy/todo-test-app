@@ -4,9 +4,11 @@ class TodoApp {
         this.todos = this.loadTodos();
         this.currentFilter = 'all';
         this.editingId = null;
+        this.isDarkMode = this.loadTheme();
         
         this.initializeElements();
         this.bindEvents();
+        this.applyTheme();
         this.render();
     }
 
@@ -20,6 +22,7 @@ class TodoApp {
         this.clearCompletedBtn = document.getElementById('clear-completed');
         this.searchInput = document.getElementById('search-input');
         this.filterButtons = document.querySelectorAll('.filter-btn');
+        this.themeToggle = document.getElementById('theme-toggle');
         
         // Modal elements
         this.editModal = document.getElementById('edit-modal');
@@ -58,6 +61,9 @@ class TodoApp {
         
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+        
+        // Theme toggle
+        this.themeToggle.addEventListener('click', () => this.toggleTheme());
     }
 
     handleAddTodo(e) {
@@ -413,6 +419,46 @@ class TodoApp {
             console.error('Error loading todos:', error);
             this.showNotification('Error loading tasks!', 'error');
             return [];
+        }
+    }
+
+    // Theme management methods
+    loadTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            return savedTheme === 'dark';
+        }
+        // Check system preference
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    saveTheme() {
+        localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+    }
+
+    applyTheme() {
+        document.documentElement.setAttribute('data-theme', this.isDarkMode ? 'dark' : 'light');
+        this.updateThemeIcon();
+    }
+
+    toggleTheme() {
+        this.isDarkMode = !this.isDarkMode;
+        this.saveTheme();
+        this.applyTheme();
+        this.showNotification(
+            `Switched to ${this.isDarkMode ? 'dark' : 'light'} mode!`, 
+            'success'
+        );
+    }
+
+    updateThemeIcon() {
+        const icon = this.themeToggle.querySelector('i');
+        if (this.isDarkMode) {
+            icon.className = 'fas fa-sun';
+            this.themeToggle.title = 'Switch to light mode';
+        } else {
+            icon.className = 'fas fa-moon';
+            this.themeToggle.title = 'Switch to dark mode';
         }
     }
 }
