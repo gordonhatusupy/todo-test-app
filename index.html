@@ -35,6 +35,12 @@
                         <option value="normal" selected>🟡 Normal</option>
                         <option value="high">🔴 High</option>
                     </select>
+                    <input 
+                        type="date" 
+                        id="due-date-input" 
+                        class="due-date-input"
+                        title="Set due date (optional)"
+                    >
                     <button type="submit" class="add-btn">
                         <i class="fas fa-plus"></i>
                         Add Task
@@ -56,6 +62,12 @@
                 </button>
                 <button class="filter-btn" data-filter="high">
                     <i class="fas fa-exclamation-circle"></i> High Priority
+                </button>
+                <button class="filter-btn" data-filter="due-today">
+                    <i class="fas fa-calendar-day"></i> Due Today
+                </button>
+                <button class="filter-btn" data-filter="overdue">
+                    <i class="fas fa-exclamation-triangle"></i> Overdue
                 </button>
             </div>
             <div class="todo-stats">
@@ -96,6 +108,18 @@
             </div>
             <div class="modal-body">
                 <input type="text" id="edit-input" placeholder="Enter task text...">
+                <div class="modal-input-group">
+                    <label for="edit-priority">Priority:</label>
+                    <select id="edit-priority" class="edit-priority-select">
+                        <option value="low">🟢 Low</option>
+                        <option value="normal">🟡 Normal</option>
+                        <option value="high">🔴 High</option>
+                    </select>
+                </div>
+                <div class="modal-input-group">
+                    <label for="edit-due-date">Due Date:</label>
+                    <input type="date" id="edit-due-date" class="edit-due-date-input">
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="cancel-edit">Cancel</button>

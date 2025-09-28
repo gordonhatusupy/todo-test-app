@@ -16,6 +16,7 @@ class TodoApp {
         this.todoForm = document.getElementById('todo-form');
         this.todoInput = document.getElementById('todo-input');
         this.prioritySelect = document.getElementById('priority-select');
+        this.dueDateInput = document.getElementById('due-date-input');
         this.todoList = document.getElementById('todo-list');
         this.emptyState = document.getElementById('empty-state');
         this.todoCount = document.getElementById('todo-count');
@@ -27,6 +28,8 @@ class TodoApp {
         // Modal elements
         this.editModal = document.getElementById('edit-modal');
         this.editInput = document.getElementById('edit-input');
+        this.editPrioritySelect = document.getElementById('edit-priority');
+        this.editDueDateInput = document.getElementById('edit-due-date');
         this.closeModalBtn = document.getElementById('close-modal');
         this.cancelEditBtn = document.getElementById('cancel-edit');
         this.saveEditBtn = document.getElementById('save-edit');
@@ -70,6 +73,7 @@ class TodoApp {
         e.preventDefault();
         const text = this.todoInput.value.trim();
         const priority = this.prioritySelect.value;
+        const dueDate = this.dueDateInput.value;
         
         if (!text) {
             this.showNotification('Please enter a task!', 'error');
@@ -81,12 +85,14 @@ class TodoApp {
             text: text,
             completed: false,
             createdAt: new Date().toISOString(),
-            priority: priority
+            priority: priority,
+            dueDate: dueDate || null
         };
         
         this.todos.unshift(todo);
         this.todoInput.value = '';
-        this.prioritySelect.value = 'normal'; // Reset to default
+        this.prioritySelect.value = 'normal';
+        this.dueDateInput.value = '';
         this.saveTodos();
         this.render();
         this.showNotification('Task added successfully!', 'success');
@@ -140,6 +146,8 @@ class TodoApp {
         if (todo) {
             this.editingId = id;
             this.editInput.value = todo.text;
+            this.editPrioritySelect.value = todo.priority;
+            this.editDueDateInput.value = todo.dueDate || '';
             this.editInput.select();
             this.showModal();
         }
@@ -147,6 +155,8 @@ class TodoApp {
 
     saveEdit() {
         const text = this.editInput.value.trim();
+        const priority = this.editPrioritySelect.value;
+        const dueDate = this.editDueDateInput.value;
         
         if (!text) {
             this.showNotification('Please enter a task!', 'error');
@@ -156,6 +166,8 @@ class TodoApp {
         const todo = this.todos.find(t => t.id === this.editingId);
         if (todo) {
             todo.text = text;
+            todo.priority = priority;
+            todo.dueDate = dueDate || null;
             this.saveTodos();
             this.render();
             this.closeModal();
@@ -199,6 +211,8 @@ class TodoApp {
         document.body.style.overflow = 'auto';
         this.editingId = null;
         this.editInput.value = '';
+        this.editPrioritySelect.value = 'normal';
+        this.editDueDateInput.value = '';
     }
 
     getFilteredTodos(searchTerm = '') {
@@ -211,7 +225,7 @@ class TodoApp {
             );
         }
         
-        // Apply status/priority filter
+        // Apply status/priority/due date filter
         switch (this.currentFilter) {
             case 'active':
                 return filtered.filter(todo => !todo.completed);
@@ -219,9 +233,43 @@ class TodoApp {
                 return filtered.filter(todo => todo.completed);
             case 'high':
                 return filtered.filter(todo => todo.priority === 'high');
+            case 'due-today':
+                return filtered.filter(todo => this.isDueToday(todo.dueDate));
+            case 'overdue':
+                return filtered.filter(todo => this.isOverdue(todo.dueDate));
             default:
                 return filtered;
         }
+    }
+
+    // Due date helper methods
+    isDueToday(dueDate) {
+        if (!dueDate) return false;
+        const today = new Date().toISOString().split('T')[0];
+        return dueDate === today;
+    }
+
+    isOverdue(dueDate) {
+        if (!dueDate) return false;
+        const today = new Date().toISOString().split('T')[0];
+        return dueDate < today;
+    }
+
+    isDueSoon(dueDate) {
+        if (!dueDate) return false;
+        const today = new Date();
+        const due = new Date(dueDate);
+        const diffTime = due - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays > 0 && diffDays <= 3;
+    }
+
+    getDueDateStatus(dueDate) {
+        if (!dueDate) return '';
+        if (this.isOverdue(dueDate)) return 'overdue';
+        if (this.isDueToday(dueDate)) return 'due-today';
+        if (this.isDueSoon(dueDate)) return 'due-soon';
+        return '';
     }
 
     render(searchTerm = '') {
@@ -253,6 +301,14 @@ class TodoApp {
                 emptyStateIcon.className = 'fas fa-clock';
                 emptyStateTitle.textContent = 'No completed tasks';
                 emptyStateText.textContent = 'Complete some tasks to see them here.';
+            } else if (this.currentFilter === 'due-today') {
+                emptyStateIcon.className = 'fas fa-calendar-day';
+                emptyStateTitle.textContent = 'No tasks due today';
+                emptyStateText.textContent = 'You\'re all caught up for today!';
+            } else if (this.currentFilter === 'overdue') {
+                emptyStateIcon.className = 'fas fa-exclamation-triangle';
+                emptyStateTitle.textContent = 'No overdue tasks';
+                emptyStateText.textContent = 'Great! You\'re staying on top of your deadlines.';
             } else {
                 emptyStateIcon.className = 'fas fa-clipboard-list';
                 emptyStateTitle.textContent = 'No tasks yet';
@@ -273,9 +329,17 @@ class TodoApp {
     createTodoHTML(todo) {
         const createdDate = new Date(todo.createdAt).toLocaleDateString();
         const createdTime = new Date(todo.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const dueDateStatus = this.getDueDateStatus(todo.dueDate);
+        const isOverdue = this.isOverdue(todo.dueDate);
+        
+        let dueDateHTML = '';
+        if (todo.dueDate) {
+            const dueDate = new Date(todo.dueDate).toLocaleDateString();
+            dueDateHTML = `<div class="due-date ${dueDateStatus}">Due: ${dueDate}</div>`;
+        }
         
         return `
-            <li class="todo-item ${todo.completed ? 'completed' : ''} priority-${todo.priority}" data-id="${todo.id}">
+            <li class="todo-item ${todo.completed ? 'completed' : ''} priority-${todo.priority} ${isOverdue ? 'overdue' : ''}" data-id="${todo.id}">
                 <input 
                     type="checkbox" 
                     class="todo-checkbox" 
@@ -285,6 +349,7 @@ class TodoApp {
                     <span class="todo-text">${this.escapeHtml(todo.text)}</span>
                     <div class="todo-meta">
                         <small class="todo-date">Created: ${createdDate} at ${createdTime}</small>
+                        ${dueDateHTML}
                     </div>
                 </div>
                 <div class="todo-actions">
@@ -476,48 +541,60 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add demo todos if none exist
     if (app.todos.length === 0) {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const nextWeek = new Date(today);
+        nextWeek.setDate(nextWeek.getDate() + 7);
+        
         const demoData = [
             {
                 id: '1',
                 text: 'Welcome to your Todo List!',
                 completed: false,
                 createdAt: new Date().toISOString(),
-                priority: 'high'
+                priority: 'high',
+                dueDate: today.toISOString().split('T')[0]
             },
             {
                 id: '2',
                 text: 'Click the checkbox to mark tasks as complete',
                 completed: false,
                 createdAt: new Date().toISOString(),
-                priority: 'normal'
+                priority: 'normal',
+                dueDate: tomorrow.toISOString().split('T')[0]
             },
             {
                 id: '3',
                 text: 'Use the edit button to modify tasks',
                 completed: true,
                 createdAt: new Date().toISOString(),
-                priority: 'low'
+                priority: 'low',
+                dueDate: null
             },
             {
                 id: '4',
-                text: 'Try filtering by All, Active, Completed, or High Priority',
+                text: 'Try filtering by All, Active, Completed, High Priority, Due Today, or Overdue',
                 completed: false,
                 createdAt: new Date().toISOString(),
-                priority: 'normal'
+                priority: 'normal',
+                dueDate: nextWeek.toISOString().split('T')[0]
             },
             {
                 id: '5',
                 text: 'Search for specific tasks using the search box',
                 completed: false,
                 createdAt: new Date().toISOString(),
-                priority: 'high'
+                priority: 'high',
+                dueDate: null
             },
             {
                 id: '6',
-                text: 'Notice the color-coded priority indicators!',
+                text: 'Notice the color-coded priority indicators and due dates!',
                 completed: false,
                 createdAt: new Date().toISOString(),
-                priority: 'low'
+                priority: 'low',
+                dueDate: today.toISOString().split('T')[0]
             }
         ];
         

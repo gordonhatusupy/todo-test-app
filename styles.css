@@ -187,6 +187,31 @@ body {
     border-color: #667eea;
 }
 
+/* Due Date Input Styles */
+.due-date-input {
+    padding: 18px 24px;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    font-size: 1.1rem;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    min-width: 160px;
+    font-family: 'Inter', sans-serif;
+}
+
+.due-date-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+.due-date-input:hover {
+    border-color: #667eea;
+}
+
 .add-btn {
     background: var(--gradient-accent);
     color: white;
@@ -238,6 +263,7 @@ body {
 .filter-buttons {
     display: flex;
     gap: 12px;
+    flex-wrap: wrap;
 }
 
 .filter-btn {
@@ -355,6 +381,18 @@ body {
     background: linear-gradient(90deg, rgba(72, 187, 120, 0.08) 0%, var(--hover-bg) 100%);
 }
 
+/* Overdue Todo Items */
+.todo-item.overdue {
+    border-left-color: #e53e3e;
+    background: linear-gradient(90deg, rgba(229, 62, 62, 0.1) 0%, var(--hover-bg) 100%);
+    animation: pulse-overdue 2s infinite;
+}
+
+@keyframes pulse-overdue {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
 .priority-badge {
     position: absolute;
     top: 12px;
@@ -384,21 +422,56 @@ body {
     color: white;
 }
 
+.todo-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.todo-text {
+    flex: 1;
+    font-size: 1.1rem;
+    word-break: break-word;
+    margin-right: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
 .todo-meta {
-    margin-top: 5px;
+    margin-top: 8px;
     width: 100%;
 }
 
 .todo-date {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     display: block;
-    margin-top: 5px;
+    margin-top: 6px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
 }
 
-.todo-item:hover {
-    background: #e9ecef;
-    transform: translateX(5px);
+/* Due Date Display in Todo Items */
+.due-date {
+    font-size: 0.8rem;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.due-date.overdue {
+    color: #e53e3e;
+    font-weight: 600;
+}
+
+.due-date.due-today {
+    color: #ed8936;
+    font-weight: 600;
+}
+
+.due-date.due-soon {
+    color: #38a169;
+    font-weight: 600;
 }
 
 .todo-item.completed {
@@ -418,22 +491,6 @@ body {
     margin-right: 15px;
     cursor: pointer;
     accent-color: #28a745;
-}
-
-.todo-text {
-    flex: 1;
-    font-size: 1.1rem;
-    word-break: break-word;
-    margin-right: 15px;
-    font-weight: 400;
-    line-height: 1.5;
-    letter-spacing: 0.01em;
-}
-
-.todo-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
 }
 
 .todo-actions {
@@ -499,12 +556,14 @@ body {
 
 /* Search Section */
 .search-section {
-    background: var(--bg-secondary);
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 20px;
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 30px;
     box-shadow: var(--shadow);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
 }
 
 .search-box {
@@ -522,11 +581,11 @@ body {
 
 #search-input {
     width: 100%;
-    padding: 15px 15px 15px 45px;
+    padding: 18px 18px 18px 50px;
     border: 2px solid var(--border-color);
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
     background: var(--input-bg);
     color: var(--text-primary);
@@ -534,7 +593,7 @@ body {
 
 #search-input:focus {
     border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
 }
 
 /* Modal Styles */
@@ -554,7 +613,7 @@ body {
     background-color: var(--modal-bg);
     margin: 15% auto;
     padding: 0;
-    border-radius: 15px;
+    border-radius: 24px;
     width: 90%;
     max-width: 500px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
@@ -574,7 +633,7 @@ body {
 }
 
 .modal-header {
-    padding: 20px 25px;
+    padding: 25px 30px;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
@@ -584,6 +643,8 @@ body {
 .modal-header h3 {
     margin: 0;
     color: var(--text-primary);
+    font-size: 1.3rem;
+    font-weight: 600;
 }
 
 .close-btn {
@@ -600,42 +661,75 @@ body {
 }
 
 .modal-body {
-    padding: 25px;
+    padding: 30px;
 }
 
 #edit-input {
     width: 100%;
-    padding: 15px;
+    padding: 18px 24px;
     border: 2px solid var(--border-color);
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
     background: var(--input-bg);
     color: var(--text-primary);
+    margin-bottom: 20px;
 }
 
 #edit-input:focus {
     border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
 }
 
-.modal-footer {
-    padding: 20px 25px;
-    border-top: 1px solid #e1e5e9;
+/* Modal Input Groups */
+.modal-input-group {
+    margin-top: 20px;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
     gap: 10px;
 }
 
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
+.modal-input-group label {
+    font-size: 0.95rem;
     font-weight: 500;
-    transition: all 0.3s ease;
+    color: var(--text-primary);
+}
+
+.edit-priority-select,
+.edit-due-date-input {
+    padding: 15px 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    font-size: 1rem;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+}
+
+.edit-priority-select:focus,
+.edit-due-date-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.modal-footer {
+    padding: 25px 30px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-secondary {
@@ -645,26 +739,27 @@ body {
 
 .btn-secondary:hover {
     background: #5a6268;
+    transform: translateY(-1px);
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-accent);
     color: white;
 }
 
 .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 20px;
     }
     
     .header h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
     
     .input-group {
@@ -672,7 +767,8 @@ body {
         gap: 15px;
     }
     
-    .priority-select {
+    .priority-select,
+    .due-date-input {
         width: 100%;
     }
     
@@ -688,6 +784,7 @@ body {
     
     .filter-buttons {
         justify-content: center;
+        flex-wrap: wrap;
     }
     
     .todo-stats {
@@ -698,6 +795,7 @@ body {
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
+        padding-right: 20px;
     }
     
     .todo-text {
@@ -713,21 +811,6 @@ body {
         margin: 10% auto;
         width: 95%;
     }
-}
-
-@media (max-width: 480px) {
-    .header h1 {
-        font-size: 1.8rem;
-    }
-    
-    .filter-btn {
-        padding: 8px 15px;
-        font-size: 0.8rem;
-    }
-    
-    .todo-item {
-        padding: 12px;
-    }
     
     .modal-footer {
         flex-direction: column;
@@ -735,6 +818,21 @@ body {
     
     .btn {
         width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .filter-btn {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .todo-item {
+        padding: 15px;
     }
 }
 
